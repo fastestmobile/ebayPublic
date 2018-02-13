@@ -31,11 +31,11 @@ public class ScreenShot {
 
 		  try {
 		   
-			//Transferring the captured image data from the original file into a destination file which can be stored
-		   FileUtils.copyFile(scrFile, new File(destDir + "/" + destFile));
-		  } catch (IOException e) {
-		   e.printStackTrace();
-		  }
+		  //Transferring the captured image data from the original file into a destination file which can be stored
+		  FileUtils.copyFile(scrFile, new File(destDir + "/" + destFile));
+		  	} catch (IOException e) {
+		  		e.printStackTrace();
+		  		}
 		 }
 
 }
