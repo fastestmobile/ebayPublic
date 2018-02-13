@@ -5,6 +5,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -31,6 +33,20 @@ public class TestData {
 	        book = new HSSFWorkbook(inputStream);
 
 	    }
+	    
+	    Sheet sheet = book.getSheet("Sheet1");
+
+	    int i=0;
+	    
+	    Row r=sheet.getRow(i);
+	   
+	    while(!r.getCell(0).getStringCellValue().equals(field)){
+	    	  	  
+	    	  	r = sheet.getRow(++i);
+	      }
+	        
+	   return r.getCell(1).getStringCellValue();
+
 	}
 }
 	
