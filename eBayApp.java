@@ -3,9 +3,11 @@ package eBayShopping;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
@@ -21,6 +23,7 @@ public class eBayApp {
 	DesiredCapabilities caps = null;
 	AppiumDriver<MobileElement> driver = null;
 	ScreenShot ss=null;
+	JavascriptExecutor js = null;
 	
 	@BeforeSuite
 	public void setup() throws IOException {
@@ -107,4 +110,49 @@ public class eBayApp {
 		driver.findElement(By.id("com.ebay.mobile:id/button_sign_in")).click();
 		
 	}
+	
+	@Test(description="perform a search with the keyword")
+	public void searchProduct() throws IOException {
+		
+		driver.findElement(By.id("com.ebay.mobile:id/search_box")).click();
+		driver.findElement(By.id("com.ebay.mobile:id/search_box")).sendKeys(data.readData("searchtext"));
+		driver.findElement(By.xpath("/html/body/div[5]/div/div/div/header/table/tbody/tr/td[3]/form/table/tbody/tr/td/div[2]/ul/li/a/b[2]")).click();
+		
+	}
+	
+	@Test(successPercentage=94)
+	public void chooseProduct() {
+		
+		js = (JavascriptExecutor)driver;
+		HashMap<String, String> scrollObjects = new HashMap<String, String>();
+		scrollObjects.put("direction", "down");
+		scrollObjects.put("text", "1701 Nike Air Presto");
+		js.executeScript("mobile: swipe", scrollObjects);
+		driver.findElement(By.partialLinkText("1701 Nike Air Presto")).click();
+		
+	}
+	
+	@Test(expectedExceptions = {MalformedURLException.class, InterruptedException.class})
+	public void analyzeProduct() {
+		
+		driver.findElement(By.id("com.ebay.mobile:id/image_view_single_image")).click();
+		driver.rotate(org.openqa.selenium.ScreenOrientation.LANDSCAPE);
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			
+			e.printStackTrace();
+		}
+		driver.rotate(org.openqa.selenium.ScreenOrientation.PORTRAIT);
+		
+	}
+	
+	@Test
+	public void purchaseProduct() {
+		
+		driver.findElement(By.id("com.ebay.mobile:id/button_bin")).click();
+		driver.findElement(By.id("com.ebay.mobile:id/take_action")).click();
+		
+	}
+
 }
